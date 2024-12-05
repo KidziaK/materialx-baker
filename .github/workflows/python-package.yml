@@ -36,7 +36,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     # Only run on main branch or when a release is published
-    if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'release' || github.ref == 'refs/heads/master'
 
     steps:
     - uses: actions/checkout@v4
