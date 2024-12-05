@@ -6,6 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Mikolaj Kida", email = "kida.miko@gmail.com" }
 ]
+url = "https://github.com/KidziaK/materialx-baker"
 requires-python = ">=3.11"
 dependencies = [
     "materialx>=1.39.1",

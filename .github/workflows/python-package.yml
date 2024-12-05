@@ -1,0 +1,82 @@
+name: Python Package Workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      run: |
+        pip install uv
+
+    - name: Create virtual environment
+      run: |
+        uv venv
+        . .venv/bin/activate
+
+    - name: Install dependencies and project
+      run: |
+        uv pip install --system .
+        uv pip install pytest
+
+    - name: Run pytest
+      run: |
+        . .venv/bin/activate
+        pytest .
+
+  build-and-publish:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only run on main branch or when a release is published
+    if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      run: |
+        pip install uv
+
+    - name: Create virtual environment
+      run: |
+        uv venv
+        . .venv/bin/activate
+
+    - name: Install build dependencies
+      run: |
+        uv pip install build twine
+
+    - name: Build package
+      run: |
+        . .venv/bin/activate
+        python -m build
+
+    # Publish to PyPI only on release
+    - name: Publish to PyPI
+      if: github.event_name == 'release'
+      run: |
+        . .venv/bin/activate
+        python -m twine upload dist/*
