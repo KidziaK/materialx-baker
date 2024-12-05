@@ -54,6 +54,6 @@ jobs:
         if: github.event_name == 'release'
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        run:
+        run: |
           uv build
           uv publish
