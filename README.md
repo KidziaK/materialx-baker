@@ -1,5 +1,3 @@
-from src.materialx_baker import bake_to_numpy
-
 # materialx-baker
 
 ## Description
