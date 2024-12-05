@@ -41,32 +41,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-
-    - name: Install uv
-      run: |
-        pip install uv
-
-    - name: Create virtual environment
-      run: |
-        uv venv
-        . .venv/bin/activate
-
-    - name: Install build dependencies
-      run: |
-        uv pip install build twine
-
-    - name: Build package
-      run: |
-        . .venv/bin/activate
-        python -m build
-
-    # Publish to PyPI only on release
     - name: Publish to PyPI
       if: github.event_name == 'release'
       run: |
-        . .venv/bin/activate
-        python -m twine upload dist/*
+        uv build
+        uv publish
