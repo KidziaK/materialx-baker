@@ -1,12 +1,11 @@
 [project]
 name = "materialx-baker"
-version = "0.1.7"
+version = "0.1.8"
 description = "A small module for baking textures from MaterialX (.mtlx) format."
 readme = "README.md"
 authors = [
     { name = "Mikolaj Kida", email = "kida.miko@gmail.com" }
 ]
-url = "https://github.com/KidziaK/materialx-baker"
 requires-python = ">=3.11"
 dependencies = [
     "materialx>=1.39.1",
@@ -21,3 +20,6 @@ dependencies = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[project.urls]
+Repository = "https://github.com/KidziaK/materialx-baker"
