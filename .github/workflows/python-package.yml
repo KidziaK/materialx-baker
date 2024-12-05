@@ -39,10 +39,19 @@ jobs:
     if: github.event_name == 'release' || github.ref == 'refs/heads/master'
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Publish to PyPI
-      if: github.event_name == 'release'
-      run: |
-        uv build
-        uv publish
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Publish to PyPI
+        if: github.event_name == 'release'
+        run: |
+          uv build
+          uv publish
