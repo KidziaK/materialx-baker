@@ -1,6 +1,6 @@
 [project]
 name = "materialx-baker"
-version = "0.1.8"
+version = "0.1.9"
 description = "A small module for baking textures from MaterialX (.mtlx) format."
 readme = "README.md"
 authors = [
