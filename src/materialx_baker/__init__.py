@@ -3,7 +3,7 @@ import pyexr
 
 from .mtlx_baker import MTLXBaker
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 def bake_to_numpy(mtlx_path: Path) -> Dict[str, Dict[str, np.ndarray]]:
     """
@@ -13,8 +13,13 @@ def bake_to_numpy(mtlx_path: Path) -> Dict[str, Dict[str, np.ndarray]]:
     baker = MTLXBaker(mtlx_path)
     return baker.bake()
 
-def bake_to_file(mtlx_path: Path, output_path: Path):
+def bake_to_file(mtlx_path: Path, output_path: Path) -> List[Path]:
     baker = MTLXBaker(mtlx_path)
+    file_names = []
 
     for graph, textures in baker.bake().items():
-        pyexr.write(output_path.joinpath(f"{mtlx_path.stem}_{graph}.exr"), textures)
+        out_file = output_path.joinpath(f"{mtlx_path.stem}_{graph}.exr")
+        pyexr.write(out_file, textures)
+        file_names.append(out_file)
+
+    return file_names
